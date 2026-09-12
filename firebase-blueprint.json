@@ -1,0 +1,33 @@
+{
+  "entities": {
+    "Profile": {
+      "fields": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "relationship": { "type": "string" },
+        "avatarColor": { "type": "string" },
+        "avatarIcon": { "type": "string" },
+        "preferredUnit": { "type": "string" },
+        "heightCm": { "type": "number" },
+        "startingWeightLbs": { "type": "number" },
+        "dateOfBirth": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "Entry": {
+      "fields": {
+        "id": { "type": "string" },
+        "profileId": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "timeOfDay": { "type": "string" },
+        "weightLbs": { "type": "number" },
+        "bodyFatPercentage": { "type": "number" },
+        "notes": { "type": "string" },
+        "tags": { "type": "array" },
+        "mood": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    }
+  }
+}

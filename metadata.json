@@ -1,0 +1,6 @@
+{
+  "name": "Family Weight Tracker",
+  "description": "Record weight activity across multiple family member profiles, monitor Asian BMI classifications, visualize health trends, and synchronize data with Firebase Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
