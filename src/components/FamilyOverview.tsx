@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { FamilyMemberProfile, WeightEntry, WeightUnit, WeightStats } from '../types';
 import { AvatarIcon } from './AvatarIcon';
-import { convertWeight } from '../utils/calculations';
+import { convertWeight, formatDateToMMDDYYYY } from '../utils/calculations';
 import { Flame } from 'lucide-react';
 
 interface FamilyOverviewProps {
@@ -256,7 +256,7 @@ export const FamilyOverview: React.FC<FamilyOverviewProps> = ({
                 <div className="pt-2.5 mt-2.5 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
                   <span>
                     {stats?.lastWeighedDate
-                      ? new Date(stats.lastWeighedDate + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                      ? formatDateToMMDDYYYY(stats.lastWeighedDate)
                       : 'No logs'}
                   </span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium text-xs">

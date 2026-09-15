@@ -16,7 +16,7 @@ import { ProfileModal } from './components/ProfileModal';
 import { DataBackupModal } from './components/DataBackupModal';
 import { FamilyMemberProfile, WeightEntry, WeightUnit, WeightStats } from './types';
 import { INITIAL_PROFILES, INITIAL_ENTRIES } from './data/seedData';
-import { calculateStats, formatWeight } from './utils/calculations';
+import { calculateStats, formatWeight, formatDateToMMDDYYYY } from './utils/calculations';
 import { ModernScale } from './components/ModernScale';
 import { AvatarIcon } from './components/AvatarIcon';
 import { Flame, Pencil } from 'lucide-react';
@@ -488,7 +488,7 @@ export default function App() {
                           </span>
                           {activeStats.lastWeighedDate && (
                             <span>
-                              Last weighed: <strong className="text-slate-700 dark:text-slate-200 font-semibold">{activeStats.lastWeighedDate}</strong>
+                              Last weighed: <strong className="text-slate-700 dark:text-slate-200 font-semibold">{formatDateToMMDDYYYY(activeStats.lastWeighedDate)}</strong>
                             </span>
                           )}
                         </div>

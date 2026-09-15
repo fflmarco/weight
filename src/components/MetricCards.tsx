@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { FamilyMemberProfile, WeightStats, WeightUnit, WeightEntry } from '../types';
-import { convertWeight, kgToLbs } from '../utils/calculations';
+import { convertWeight, kgToLbs, formatDateToMMDDYYYY } from '../utils/calculations';
 import { ModernScale } from './ModernScale';
 
 interface MetricCardsProps {
@@ -28,7 +28,6 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
   const current = convertWeight(stats.currentWeightLbs, unit);
   const changeVsLastLog = convertWeight(stats.changeVsLastLogLbs, unit);
   const minWeight = convertWeight(stats.minWeightLbs, unit);
-  const weeklyRate = convertWeight(stats.weeklyRateLbs, unit);
 
   // In-card quick record log state
   const [cardWeight, setCardWeight] = useState<string>('');
@@ -129,14 +128,13 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
 
   const asianBmi = getAsianBmiBadge(stats.bmiCategory, stats.bmi);
 
-  // Format last weighed date
+  // Format last weighed date (MM-DD-YYYY)
   const lastWeighedDisplay = React.useMemo(() => {
     if (!stats.lastWeighedDate) return 'No entries yet';
+    const formatted = formatDateToMMDDYYYY(stats.lastWeighedDate);
     const todayStr = new Date().toISOString().split('T')[0];
-    if (stats.lastWeighedDate === todayStr) return 'Logged Today';
-    
-    const d = new Date(stats.lastWeighedDate + 'T00:00:00');
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    if (stats.lastWeighedDate === todayStr) return `Today (${formatted})`;
+    return `Last: ${formatted}`;
   }, [stats.lastWeighedDate]);
 
   // Healthy weight range display for Asian BMI
@@ -239,17 +237,17 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
 
           <div className="flex items-baseline justify-between gap-1 mb-2">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {unit === 'kg' ? Number(current.toFixed(2)) : current.toFixed(1)}
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">{unit}</span>
+              <span className="text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400">{unit}</span>
             </div>
 
             {/* Change badge */}
             <span
               id="badge-change-vs-last-log"
               title="Change vs last log"
-              className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-md border whitespace-nowrap ${
+              className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-2.5 py-1 rounded-lg border whitespace-nowrap ${
                 changeVsLastLog < 0
                   ? 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
                   : changeVsLastLog > 0
@@ -258,9 +256,9 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
               }`}
             >
               {changeVsLastLog < 0 ? (
-                <TrendingDown className="w-3.5 h-3.5" />
+                <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               ) : changeVsLastLog > 0 ? (
-                <TrendingUp className="w-3.5 h-3.5" />
+                <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               ) : null}
               <span>
                 {changeVsLastLog > 0 ? '+' : ''}{unit === 'kg' ? Number(changeVsLastLog.toFixed(2)) : changeVsLastLog.toFixed(1)} {unit}
@@ -274,15 +272,6 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
               {unit === 'kg' ? Number(minWeight.toFixed(2)) : minWeight.toFixed(1)} – {unit === 'kg' ? Number(convertWeight(stats.maxWeightLbs, unit).toFixed(2)) : convertWeight(stats.maxWeightLbs, unit).toFixed(1)} {unit}
             </span>
           </div>
-        </div>
-
-        <div className="text-xs text-slate-500 dark:text-slate-400 pt-2 mt-2 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
-          <span>Weekly Rate</span>
-          <span>
-            {stats.weeklyRateLbs !== 0
-              ? `${weeklyRate > 0 ? '+' : ''}${unit === 'kg' ? Number(weeklyRate.toFixed(2)) : weeklyRate.toFixed(1)} ${unit}/wk`
-              : 'Stable'}
-          </span>
         </div>
       </div>
 

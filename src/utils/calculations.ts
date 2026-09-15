@@ -26,6 +26,23 @@ export function formatWeight(weightLbs: number, unit: WeightUnit): string {
   return `${value.toFixed(1)} ${unit}`;
 }
 
+export function formatDateToMMDDYYYY(dateStr?: string | null): string {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    const [year, month, day] = parts;
+    return `${month.padStart(2, '0')}-${day.padStart(2, '0')}-${year}`;
+  }
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${month}-${day}-${year}`;
+  }
+  return dateStr;
+}
+
 export function calculateBMI(weightLbs: number, heightCm?: number): { bmi: number; category: string } | null {
   if (!heightCm || heightCm <= 50) return null;
   const weightKg = lbsToKg(weightLbs);
