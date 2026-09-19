@@ -80,7 +80,7 @@ export const DataBackupModal: React.FC<DataBackupModalProps> = ({
         `"${e.date}"`,
         `"${e.time || ''}"`,
         `"${e.timeOfDay || ''}"`,
-        displayWeight.toFixed(1),
+        Number(displayWeight.toFixed(2)).toString(),
         `"${(e.notes || '').replace(/"/g, '""')}"`,
         `"${e.mood || ''}"`,
       ].join(',');

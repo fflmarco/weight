@@ -94,7 +94,7 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               <button
                 id={`sidebar-profile-item-${prof.id}`}
                 onClick={() => onSelectProfile(prof.id)}
-                title={`${prof.name}: ${currentWeight.toFixed(1)} ${unit}`}
+                title={`${prof.name}: ${Number(currentWeight.toFixed(2))} ${unit}`}
                 className="w-full h-full flex flex-col items-center justify-center text-center cursor-pointer min-w-0"
               >
                 <div className="relative shrink-0 mb-1">
@@ -121,7 +121,7 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
                 </span>
 
                 <span className="text-[10px] xl:text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5 leading-none">
-                  {unit === 'kg' ? Number(currentWeight.toFixed(2)) : currentWeight.toFixed(1)}
+                  {Number(currentWeight.toFixed(2))}
                 </span>
               </button>
 
@@ -264,11 +264,11 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                      {unit === 'kg' ? Number(currentWeight.toFixed(2)) : currentWeight.toFixed(1)} {unit}
+                      {Number(currentWeight.toFixed(2))} {unit}
                     </span>
                     {diff !== 0 && (
                       <span className={`text-[10px] font-medium ${diff < 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                        {diff > 0 ? `+${unit === 'kg' ? Number(diff.toFixed(2)) : diff.toFixed(1)}` : (unit === 'kg' ? Number(diff.toFixed(2)) : diff.toFixed(1))}
+                        {diff > 0 ? `+${Number(diff.toFixed(2))}` : Number(diff.toFixed(2))}
                       </span>
                     )}
                   </div>

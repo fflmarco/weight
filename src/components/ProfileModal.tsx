@@ -52,13 +52,13 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
         setAvatarColor(editingProfile.avatarColor);
         setAvatarIcon(editingProfile.avatarIcon);
         const startDisp = convertWeight(editingProfile.startingWeightLbs, unit);
-        setStartingWeightStr(startDisp.toFixed(1));
+        setStartingWeightStr(Number(startDisp.toFixed(2)).toString());
         setHeightCmStr(editingProfile.heightCm ? String(editingProfile.heightCm) : '175');
 
         const currDisp = currentWeightLbs !== undefined 
           ? convertWeight(currentWeightLbs, unit) 
           : startDisp;
-        setCurrentWeightStr(currDisp.toFixed(1));
+        setCurrentWeightStr(Number(currDisp.toFixed(2)).toString());
         setRecordLogEntry(false);
       } else {
         setName('');
@@ -99,7 +99,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
       avatarIcon,
       preferredUnit: unit,
       heightCm: !isNaN(heightVal) && heightVal > 0 ? heightVal : undefined,
-      startingWeightLbs: Number(startingWeightLbs.toFixed(1)),
+      startingWeightLbs: Number(startingWeightLbs.toFixed(4)),
       createdAt: editingProfile ? editingProfile.createdAt : new Date().toISOString(),
     };
 
@@ -109,7 +109,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
       if (!isNaN(currVal) && currVal > 0) {
         const currLbs = unit === 'kg' ? kgToLbs(currVal) : currVal;
         logEntry = {
-          weightLbs: Number(currLbs.toFixed(2)),
+          weightLbs: Number(currLbs.toFixed(4)),
           date: currentDateStr || new Date().toISOString().split('T')[0],
         };
       }
@@ -227,10 +227,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               <input
                 id="input-starting-weight"
                 type="number"
-                step="0.1"
+                step="0.01"
+                min="1"
                 required
                 value={startingWeightStr}
                 onChange={(e) => setStartingWeightStr(e.target.value)}
+                placeholder="50.25"
                 className="w-full px-3 py-2 text-sm font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:outline-hidden"
               />
             </div>
@@ -281,11 +283,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                   <input
                     id="input-profile-current-weight"
                     type="number"
-                    step="0.1"
+                    step="0.01"
+                    min="1"
                     required={recordLogEntry}
                     value={currentWeightStr}
                     onChange={(e) => setCurrentWeightStr(e.target.value)}
-                    placeholder={startingWeightStr || '0.0'}
+                    placeholder={startingWeightStr || '50.25'}
                     className="w-full px-3 py-2 text-sm font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:outline-hidden"
                   />
                 </div>

@@ -63,7 +63,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
   // Sync weight text box with current member's weight and selected unit
   useEffect(() => {
     const currDisp = convertWeight(stats.currentWeightLbs, unit);
-    setCardWeight(unit === 'kg' ? Number(currDisp.toFixed(2)).toString() : currDisp.toFixed(1));
+    setCardWeight(Number(currDisp.toFixed(2)).toString());
   }, [profile.id, stats.currentWeightLbs, unit]);
 
   // Reset calendar date to current date whenever active profile switches
@@ -83,7 +83,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       id: `entry-${Date.now()}`,
       profileId: profile.id,
       date: chosenDate,
-      weightLbs: Number(weightLbs.toFixed(2)),
+      weightLbs: Number(weightLbs.toFixed(4)),
       createdAt: new Date().toISOString(),
     }, false);
 
@@ -221,7 +221,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
     if (currentWeight > max) {
       const diffLbs = currentWeight - max;
       const diffConverted = convertWeight(diffLbs, unit);
-      const diffStr = unit === 'kg' ? Number(diffConverted.toFixed(2)) : diffConverted.toFixed(1);
+      const diffStr = Number(diffConverted.toFixed(2));
       return {
         label: `-${diffStr} ${unit} to target range`,
         detail: `${diffStr} ${unit} to reach standard guideline range`,
@@ -235,7 +235,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
     if (currentWeight < min) {
       const diffLbs = min - currentWeight;
       const diffConverted = convertWeight(diffLbs, unit);
-      const diffStr = unit === 'kg' ? Number(diffConverted.toFixed(2)) : diffConverted.toFixed(1);
+      const diffStr = Number(diffConverted.toFixed(2));
       return {
         label: `+${diffStr} ${unit} to target range`,
         detail: `${diffStr} ${unit} to reach standard guideline range`,
@@ -286,12 +286,12 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
               <input
                 id="card-input-weight"
                 type="number"
-                step="0.1"
+                step="0.01"
                 min="1"
                 required
                 value={cardWeight}
                 onChange={(e) => setCardWeight(e.target.value)}
-                placeholder={`${current.toFixed(1)} ${unit}`}
+                placeholder={`${Number(current.toFixed(2))} ${unit}`}
                 title={`Weight (${unit})`}
                 aria-label={`Weight in ${unit}`}
                 className="w-full px-2.5 py-1.5 text-sm font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:outline-hidden transition-all"
@@ -348,7 +348,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
           <div className="flex items-baseline justify-between gap-1 mb-2">
             <div className="flex items-baseline gap-1.5">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                {unit === 'kg' ? Number(current.toFixed(2)) : current.toFixed(1)}
+                {Number(current.toFixed(2))}
               </span>
               <span className="text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400">{unit}</span>
             </div>
@@ -371,7 +371,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
                 <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               ) : null}
               <span>
-                {changeVsLastLog > 0 ? '+' : ''}{unit === 'kg' ? Number(changeVsLastLog.toFixed(2)) : changeVsLastLog.toFixed(1)} {unit}
+                {changeVsLastLog > 0 ? '+' : ''}{Number(changeVsLastLog.toFixed(2))} {unit}
               </span>
             </span>
           </div>
@@ -379,7 +379,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
           <div className="text-xs text-slate-600 dark:text-slate-400">
             <span>Range: </span>
             <span className="font-semibold text-slate-800 dark:text-slate-200">
-              {unit === 'kg' ? Number(minWeight.toFixed(2)) : minWeight.toFixed(1)} – {unit === 'kg' ? Number(convertWeight(stats.maxWeightLbs, unit).toFixed(2)) : convertWeight(stats.maxWeightLbs, unit).toFixed(1)} {unit}
+              {Number(minWeight.toFixed(2))} – {Number(convertWeight(stats.maxWeightLbs, unit).toFixed(2))} {unit}
             </span>
           </div>
         </div>

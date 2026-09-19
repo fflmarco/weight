@@ -221,13 +221,13 @@ export const FamilyOverview: React.FC<FamilyOverviewProps> = ({
                   <div className="flex items-baseline justify-between mb-2">
                     <div>
                       <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {unit === 'kg' ? Number(current.toFixed(2)) : current.toFixed(1)} <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{unit}</span>
+                        {Number(current.toFixed(2))} <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{unit}</span>
                       </span>
                     </div>
 
                     <div className="text-right">
                       <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                        Start: {unit === 'kg' ? Number(starting.toFixed(2)) : starting.toFixed(1)} {unit}
+                        Start: {Number(starting.toFixed(2))} {unit}
                       </span>
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export const FamilyOverview: React.FC<FamilyOverviewProps> = ({
                     <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
                       <span>Change:</span>
                       <span className={`font-semibold ${isLoss ? 'text-emerald-600 dark:text-emerald-400' : delta > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-700 dark:text-slate-300'}`}>
-                        {delta > 0 ? `+${unit === 'kg' ? Number(delta.toFixed(2)) : delta.toFixed(1)}` : (unit === 'kg' ? Number(delta.toFixed(2)) : delta.toFixed(1))} {unit}
+                        {delta > 0 ? `+${Number(delta.toFixed(2))}` : Number(delta.toFixed(2))} {unit}
                       </span>
                     </div>
                   </div>

@@ -153,7 +153,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
                     </td>
 
                     <td className="py-3 px-3 font-semibold text-slate-900 dark:text-white whitespace-nowrap">
-                      {unit === 'kg' ? Number(weightDisplay.toFixed(2)) : weightDisplay.toFixed(1)} {unit}
+                      {Number(weightDisplay.toFixed(2))} {unit}
                     </td>
 
                     <td className="py-3 px-3 whitespace-nowrap">
@@ -163,7 +163,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
                             isLoss ? 'text-emerald-600 dark:text-emerald-400' : isGain ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400 dark:text-slate-500'
                           }`}
                         >
-                          {isGain ? '+' : ''}{unit === 'kg' ? Number(deltaConverted.toFixed(2)) : deltaConverted.toFixed(1)}
+                          {isGain ? '+' : ''}{Number(deltaConverted.toFixed(2))}
                         </span>
                       ) : (
                         <span className="text-slate-300 dark:text-slate-600">—</span>

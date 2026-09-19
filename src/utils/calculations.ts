@@ -15,15 +15,12 @@ export function convertWeight(weightLbs: number, targetUnit: WeightUnit): number
     const kg = lbsToKg(weightLbs);
     return Number(kg.toFixed(2));
   }
-  return Number(weightLbs.toFixed(1));
+  return Number(weightLbs.toFixed(2));
 }
 
 export function formatWeight(weightLbs: number, unit: WeightUnit): string {
   const value = convertWeight(weightLbs, unit);
-  if (unit === 'kg') {
-    return `${Number(value.toFixed(2))} ${unit}`;
-  }
-  return `${value.toFixed(1)} ${unit}`;
+  return `${Number(value.toFixed(2))} ${unit}`;
 }
 
 export function formatDateToMMDDYYYY(dateStr?: string | null): string {
@@ -105,15 +102,15 @@ export function calculateStats(profile: FamilyMemberProfile, entries: WeightEntr
   const currentWeightLbs = lastEntry.weightLbs;
   const startingWeightLbs = profile.startingWeightLbs || firstEntry.weightLbs;
   
-  const totalChangeLbs = Number((currentWeightLbs - startingWeightLbs).toFixed(1));
+  const totalChangeLbs = Number((currentWeightLbs - startingWeightLbs).toFixed(2));
 
   // Change vs the previous log entry
   let changeVsLastLogLbs = 0;
   if (sorted.length >= 2) {
     const prevEntry = sorted[sorted.length - 2];
-    changeVsLastLogLbs = Number((lastEntry.weightLbs - prevEntry.weightLbs).toFixed(1));
+    changeVsLastLogLbs = Number((lastEntry.weightLbs - prevEntry.weightLbs).toFixed(2));
   } else if (sorted.length === 1) {
-    changeVsLastLogLbs = Number((lastEntry.weightLbs - startingWeightLbs).toFixed(1));
+    changeVsLastLogLbs = Number((lastEntry.weightLbs - startingWeightLbs).toFixed(2));
   }
   const changePercentage = startingWeightLbs > 0 
     ? Number(((totalChangeLbs / startingWeightLbs) * 100).toFixed(1)) 

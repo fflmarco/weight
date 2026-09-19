@@ -34,7 +34,7 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
   // Helper to compute member's latest recorded weight
   const getLatestWeightDisplay = useCallback((targetId: string): string => {
     const prof = profiles.find((p) => p.id === targetId);
-    if (!prof) return unit === 'lbs' ? '160.0' : '70.0';
+    if (!prof) return unit === 'lbs' ? '160.00' : '70.00';
 
     const memberEntries = entries.filter((e) => e.profileId === targetId);
     if (memberEntries.length > 0) {
@@ -42,9 +42,11 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
         (a, b) => new Date(b.date + (b.time ? 'T' + b.time : 'T00:00:00')).getTime() -
                   new Date(a.date + (a.time ? 'T' + a.time : 'T00:00:00')).getTime()
       );
-      return convertWeight(sorted[0].weightLbs, unit).toFixed(1);
+      const converted = convertWeight(sorted[0].weightLbs, unit);
+      return Number(converted.toFixed(2)).toString();
     }
-    return convertWeight(prof.startingWeightLbs, unit).toFixed(1);
+    const startConverted = convertWeight(prof.startingWeightLbs, unit);
+    return Number(startConverted.toFixed(2)).toString();
   }, [profiles, entries, unit]);
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
       if (initialEntry) {
         setProfileId(initialEntry.profileId);
         const displayWeight = convertWeight(initialEntry.weightLbs, unit);
-        setWeightValue(displayWeight.toFixed(1));
+        setWeightValue(Number(displayWeight.toFixed(2)).toString());
         setDate(initialEntry.date);
         setNotes(initialEntry.notes || '');
       } else {
@@ -86,7 +88,7 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
   const handleAdjustWeight = (delta: number) => {
     const num = parseFloat(weightValue) || 0;
     const updated = Math.max(1, num + delta);
-    setWeightValue(updated.toFixed(1));
+    setWeightValue(Number(updated.toFixed(2)).toString());
   };
 
   const todayStr = new Date().toISOString().split('T')[0];
@@ -115,7 +117,7 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
       id: initialEntry ? initialEntry.id : `entry-${Date.now()}`,
       profileId,
       date: date || todayStr,
-      weightLbs: Number(weightLbs.toFixed(2)),
+      weightLbs: Number(weightLbs.toFixed(4)),
       notes: notes.trim() || undefined,
       createdAt: initialEntry ? initialEntry.createdAt : new Date().toISOString(),
     };
@@ -204,12 +206,13 @@ export const LogWeightModal: React.FC<LogWeightModalProps> = ({
               <input
                 id="input-current-weight"
                 type="number"
-                step="0.1"
+                step="0.01"
+                min="1"
                 required
                 autoFocus
                 value={weightValue}
                 onChange={(e) => setWeightValue(e.target.value)}
-                placeholder="0.0"
+                placeholder="50.25"
                 className="grow text-center text-3xl font-bold tracking-tight bg-transparent text-slate-900 dark:text-white focus:outline-hidden py-1"
               />
 
