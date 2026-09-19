@@ -24,7 +24,7 @@ interface WeightChartProps {
 }
 
 export const WeightChart: React.FC<WeightChartProps> = ({ profile, entries, unit, theme = 'light' }) => {
-  const [timeRange, setTimeRange] = useState<TimeRange>('3M');
+  const [timeRange, setTimeRange] = useState<TimeRange>('ALL');
   const [showMovingAverage, setShowMovingAverage] = useState<boolean>(true);
 
   const isDark = theme === 'dark';
